@@ -1,28 +1,28 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { useInfos } from "./useInfos";
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+function LocalStorageNotifier({ id, infos }) {
+  return (
+    <>
+      <h3>Tab: {id}</h3>
+      <h4>
+        There are {infos.length} active tabs for {window.location.href}
+      </h4>
+      {infos.map(
+        info =>
+          info.id !== id && (
+            <div key={info.id}>
+              {info.id}: <span>{info.lastPing}ms</span>
+            </div>
+          )
+      )}
+    </>
+  );
+}
+
+function App() {
+  const [id, infos] = useInfos();
+  return <LocalStorageNotifier id={id} infos={infos} />;
 }
 
 export default App;
